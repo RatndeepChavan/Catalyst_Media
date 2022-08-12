@@ -16,3 +16,6 @@
 - Programming language : python3
 - Framework : Django
 - Api : Django rest framework (DRF)
+
+## API Testing file:
+- run the apitest file in terminal to verify the working of the api (note:server must be running at backend)
