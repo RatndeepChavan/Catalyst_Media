@@ -1,0 +1,97 @@
+{% extends 'hm.html' %}
+
+{% block tt %} Payment {% endblock %}
+
+{% block b1 %}
+<style>
+    @keyframes clr{
+    0%{color:red;}
+    50%{color:orange;}
+    100%{color:red;}
+    }
+</style>
+
+<div class="row w-75 text-light mx-auto">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mt-5">
+        <div class="container-fluid my-1">
+            <b class="navbar-brand">Welcome {{ u }}</b>
+            <b class="navbar-nav ms-auto">
+                {% if not dis %}
+                <a class="nav-link active text-decoration-underline" href="{% url 'disable' %}">Disable wallet</a>
+                {% endif %}
+                <a class="nav-link active" href="{% url 'out' %}">Logout</a>
+            </b>
+        </div>
+    </nav>
+
+    {% if dis %}
+    <div>
+        <h5 class="w-50 mx-auto mt-4 py-2 text-center rounded-pill">Your wallet in disable. Click
+            <a class="link" href="{% url 'enable' %}" style="animation:clr 1s linear infinite">Here</a>
+            to enable the wallet.</h5>
+    </div>
+    {% endif %}
+
+    {% if not blc and not dis %}
+    <div>
+        <h5 class="w-50 mx-auto mt-4 py-2 text-center rounded-pill" style="animation:clr 1s linear infinite">Your wallet
+            balance is zero. Please add balance </h5>
+    </div>
+    {% endif %}
+
+    <div class="container my-5">
+        <div class="row">
+            {% if dis %}
+            <div class="col-3 card" style="background:black; pointer-events: none; opacity: 0.4;">
+                {% else %}
+                <div class="col-3 card" style="background:black">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">Available Funds : </h5>
+                        <h5 class="card-subtitle mb-2 text-muted">Rs. {{ blc }} </h5><br>
+                        <div class="mb-3 card-text">
+                            <div class="mb-2">Manage funds :</div>
+                            <form>
+                                {% csrf_token %}
+                                <div class="input-group mb-2">
+                                    <input aria-label="Recipient's username with two button addons"
+                                           class="form-control rounded-pill text-center" name="amount"
+                                           placeholder="Amount" type="text">
+                                </div>
+                                <div class="input-group">
+                                    <input class="btn btn-success w-50 " formaction="{% url 'add' %}" formmethod="post" type="submit"
+                                           value="Add">
+                                    <input class="btn btn-danger w-50" formaction="{% url 'remove' %}" formmethod="post" type="submit"
+                                           value="Remove">
+                                </div>
+                            </form>
+                        </div>
+                        {% for m in messages %}
+                        <h5 class="card-title text-info">{{ m }} </h5>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="col offset-1">
+                    <div class="table-responsive">
+                        <table class="table table-borderless align-middle text-light">
+                            <tr class="border-bottom">
+                                <th class="col-5"> Date & Time</th>
+                                <th class="col-2 text-end pe-5"> Amount</th>
+                                <th class="px-5"> Added By</th>
+                            </tr>
+                            {% for i in t reversed %}
+                            <tr>
+                                <td> {{ i.dt }}</td>
+                                <td class="text-end pe-5"> {{ i.am }}</td>
+                                <td class="px-5"> {{ i.us }}</td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

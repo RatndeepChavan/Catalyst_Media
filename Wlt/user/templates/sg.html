@@ -1,0 +1,30 @@
+{% extends 'hm.html' %}
+
+{% block tt %} Sign Up {% endblock %}
+
+{% block b1 %}
+<div class="row align-items-center justify-content-center" style="height:100vh">
+    <form class="col-sm-4 form-group py-4 px-5 bg-dark border border-3 border-secondary" method="post" style="border-radius:25%">
+        {% csrf_token %}
+        <div class="mb-3 text-light text-center">
+            <h3>Create Account :</h3>
+        </div>
+        <br>
+        {% for i in fm %}
+        <div class="mb-3">
+            {{ i }}
+        </div>
+        <div class="mb-3 text-light bg-danger">
+            {{ i.errors }}
+        </div>
+        {% endfor %}
+        <div class="mb-3">
+            <input class="form-control btn btn-primary rounded-pill" placeholder="Enter Password" type="submit" value="Sign up">
+        </div>
+        <br>
+        <div class="mb-3 text-center">
+            <a href="{% url 'hm' %}" style="color:cyan">Existing user? Login here...</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
